@@ -1,0 +1,5 @@
+{
+  "name": "艾莫音乐",
+  "description": "类似于QQ音乐界面的艾莫音乐介绍网页，包含轮播图和下载板块",
+  "requestFramePermissions": []
+}
