@@ -1,10 +1,17 @@
 import type {Metadata} from 'next';
-import { Inter } from 'next/font/google';
+import { Noto_Sans_SC, Noto_Serif_SC } from 'next/font/google';
 import './globals.css'; // Global styles
 
-const inter = Inter({
+const notoSans = Noto_Sans_SC({
   subsets: ['latin'],
   variable: '--font-sans',
+  weight: ['300', '400', '500', '700'],
+});
+
+const notoSerif = Noto_Serif_SC({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  weight: ['400', '700', '900'],
 });
 
 export const metadata: Metadata = {
@@ -14,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="zh-CN" className={`${inter.variable}`}>
+    <html lang="zh-CN" className={`${notoSans.variable} ${notoSerif.variable}`}>
       <body className="font-sans antialiased" suppressHydrationWarning>{children}</body>
     </html>
   );

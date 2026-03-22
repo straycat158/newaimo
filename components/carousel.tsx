@@ -43,7 +43,7 @@ export default function Carousel() {
   const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <div className="relative w-full max-w-7xl mx-auto h-[400px] md:h-[520px] rounded-[2rem] overflow-hidden group shadow-sm bg-zinc-100">
+    <div className="relative w-full max-w-7xl mx-auto h-[320px] sm:h-[400px] md:h-[520px] rounded-[2rem] overflow-hidden group shadow-sm bg-zinc-100">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
@@ -62,12 +62,12 @@ export default function Carousel() {
             priority
           />
           <div className={`absolute inset-0 bg-gradient-to-r ${slides[currentIndex].color}`} />
-          <div className="absolute inset-0 flex flex-col justify-center px-12 md:px-24 text-white">
+          <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 md:px-24 text-white">
             <motion.h2
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.6, ease: [0.2, 0, 0, 1] }}
-              className="text-4xl md:text-6xl font-bold mb-6 tracking-tight"
+              className="text-3xl sm:text-4xl md:text-6xl font-serif font-bold mb-4 md:mb-6 tracking-tight"
             >
               {slides[currentIndex].title}
             </motion.h2>
@@ -75,7 +75,7 @@ export default function Carousel() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.6, ease: [0.2, 0, 0, 1] }}
-              className="text-lg md:text-2xl text-zinc-300 font-medium"
+              className="text-base sm:text-lg md:text-2xl text-zinc-300 font-medium"
             >
               {slides[currentIndex].subtitle}
             </motion.p>
@@ -84,9 +84,9 @@ export default function Carousel() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.6, ease: [0.2, 0, 0, 1] }}
-              className="mt-10"
+              className="mt-6 md:mt-10"
             >
-              <button className="bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-zinc-200 active:scale-95 transition-all shadow-lg">
+              <button className="bg-white text-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-zinc-200 active:scale-95 transition-all shadow-lg">
                 立即体验
               </button>
             </motion.div>
@@ -97,25 +97,25 @@ export default function Carousel() {
       {/* Controls - MD3 FAB style */}
       <button
         onClick={prevSlide}
-        className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/20 active:scale-90 border border-white/10"
+        className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/20 active:scale-90 border border-white/10"
       >
-        <ChevronLeft className="w-8 h-8" />
+        <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/20 active:scale-90 border border-white/10"
+        className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/20 active:scale-90 border border-white/10"
       >
-        <ChevronRight className="w-8 h-8" />
+        <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
       </button>
 
       {/* Indicators - MD3 Pill style */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 p-2 rounded-full bg-black/20 backdrop-blur-md">
+      <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 p-1.5 md:p-2 rounded-full bg-black/20 backdrop-blur-md">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`h-2 rounded-full transition-all duration-500 ease-out ${
-              index === currentIndex ? 'bg-white w-8' : 'bg-white/50 w-2 hover:bg-white/80'
+            className={`h-1.5 md:h-2 rounded-full transition-all duration-500 ease-out ${
+              index === currentIndex ? 'bg-white w-6 md:w-8' : 'bg-white/50 w-1.5 md:w-2 hover:bg-white/80'
             }`}
           />
         ))}
