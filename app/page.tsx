@@ -122,15 +122,15 @@ export default function Home() {
             
             <div className="flex overflow-x-auto gap-6 md:gap-8 pb-8 md:pb-12 pt-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {[
-                { title: '播放界面', desc: '纯粹的黑胶质感' },
-                { title: '发现音乐', desc: '探索未知的声音' },
-                { title: '个人主页', desc: '你的音乐DNA' },
-                { title: '动态歌词', desc: '字字句句，声声入耳' },
+                { title: '播放界面', desc: '纯粹的黑胶质感', image: '/screenshots/screen-1.png' },
+                { title: '发现音乐', desc: '探索未知的声音', image: '/screenshots/screen-2.png' },
+                { title: '个人主页', desc: '你的音乐DNA', image: '/screenshots/screen-3.png' },
+                { title: '动态歌词', desc: '字字句句，声声入耳', image: '/screenshots/screen-4.png' },
               ].map((screen, idx) => (
                 <div key={idx} className="min-w-[240px] md:min-w-[340px] snap-center group">
                   <div className="aspect-[9/16] bg-zinc-200 rounded-[2rem] md:rounded-[3rem] overflow-hidden relative shadow-xl border-[8px] md:border-[12px] border-zinc-800 group-hover:-translate-y-2 md:group-hover:-translate-y-4 transition-transform duration-500">
                     <Image 
-                      src={`https://picsum.photos/seed/aimoscreen${idx}/600/1200?grayscale`} 
+                      src={screen.image} 
                       fill 
                       className="object-cover group-hover:scale-105 transition-transform duration-700" 
                       alt={screen.title} 
@@ -237,30 +237,42 @@ export default function Home() {
                 <h2 className="text-4xl md:text-6xl font-serif font-bold mb-4 md:mb-6 tracking-tight">艾莫音乐，无处不在</h2>
                 <p className="text-lg md:text-2xl text-zinc-400 font-medium">下载客户端，享受更流畅、更优质的音乐体验</p>
               </div>
-              <button className="bg-white text-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-zinc-200 active:scale-95 transition-all shadow-lg flex items-center gap-2 md:gap-3">
+              <a href="https://lz.qaiu.top/lz/ivFQE3j535kb@7yiu" target="_blank" rel="noopener noreferrer" className="bg-white text-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-zinc-200 active:scale-95 transition-all shadow-lg flex items-center gap-2 md:gap-3 inline-flex">
                 <Download className="w-5 h-5 md:w-6 md:h-6" />
                 全部下载
-              </button>
+              </a>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-3xl">
               {[
-                { icon: Monitor, name: 'PC 版', desc: 'Windows 10/11', status: '待开发' },
-                { icon: Smartphone, name: 'Android 版', desc: '各大应用市场' },
-              ].map((platform, idx) => (
-                <button key={idx} className={`group flex flex-col items-start p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-zinc-800/50 transition-all duration-300 border border-zinc-700/50 text-left relative ${platform.status ? 'cursor-not-allowed opacity-80' : 'hover:bg-zinc-800 hover:border-zinc-600 active:scale-95'}`}>
-                  {platform.status && (
-                    <span className="absolute top-6 right-6 md:top-8 md:right-8 bg-zinc-700 text-zinc-300 text-xs font-bold px-3 py-1 rounded-full">
-                      {platform.status}
-                    </span>
-                  )}
-                  <div className={`w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-zinc-700/50 flex items-center justify-center mb-10 md:mb-16 transition-colors duration-300 ${!platform.status ? 'group-hover:bg-white group-hover:text-black' : ''}`}>
-                    <platform.icon className="w-6 h-6 md:w-8 md:h-8" />
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-1 md:mb-2">{platform.name}</h3>
-                  <p className="text-sm md:text-base text-zinc-400 font-medium">{platform.desc}</p>
-                </button>
-              ))}
+                { icon: Monitor, name: 'PC 版', desc: 'Windows 10/11', status: '待开发', link: '#' },
+                { icon: Smartphone, name: 'Android 版', desc: '各大应用市场', link: 'https://lz.qaiu.top/lz/ivFQE3j535kb@7yiu' },
+              ].map((platform, idx) => {
+                const Content = (
+                  <>
+                    {platform.status && (
+                      <span className="absolute top-6 right-6 md:top-8 md:right-8 bg-zinc-700 text-zinc-300 text-xs font-bold px-3 py-1 rounded-full">
+                        {platform.status}
+                      </span>
+                    )}
+                    <div className={`w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-zinc-700/50 flex items-center justify-center mb-10 md:mb-16 transition-colors duration-300 ${!platform.status ? 'group-hover:bg-white group-hover:text-black' : ''}`}>
+                      <platform.icon className="w-6 h-6 md:w-8 md:h-8" />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold mb-1 md:mb-2">{platform.name}</h3>
+                    <p className="text-sm md:text-base text-zinc-400 font-medium">{platform.desc}</p>
+                  </>
+                );
+
+                return platform.status ? (
+                  <button key={idx} className="group flex flex-col items-start p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-zinc-800/50 transition-all duration-300 border border-zinc-700/50 text-left relative cursor-not-allowed opacity-80">
+                    {Content}
+                  </button>
+                ) : (
+                  <a key={idx} href={platform.link} target="_blank" rel="noopener noreferrer" className="group flex flex-col items-start p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] bg-zinc-800/50 transition-all duration-300 border border-zinc-700/50 text-left relative hover:bg-zinc-800 hover:border-zinc-600 active:scale-95">
+                    {Content}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -277,7 +289,7 @@ export default function Home() {
           </div>
           
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-4 md:gap-8 text-sm md:text-base">
-            <Link href="#" className="hover:text-black transition-colors">关于我们</Link>
+            <Link href="https://amstudios.dpdns.org" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">关于我们</Link>
             <Link href="#" className="hover:text-black transition-colors">用户协议</Link>
             <Link href="#" className="hover:text-black transition-colors">隐私政策</Link>
             <Link href="#" className="hover:text-black transition-colors">联系客服</Link>

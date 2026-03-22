@@ -86,7 +86,15 @@ export default function Carousel() {
               transition={{ delay: 0.4, duration: 0.6, ease: [0.2, 0, 0, 1] }}
               className="mt-6 md:mt-10"
             >
-              <button className="bg-white text-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-zinc-200 active:scale-95 transition-all shadow-lg">
+              <button 
+                onClick={() => {
+                  const element = document.getElementById('download');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="bg-white text-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-zinc-200 active:scale-95 transition-all shadow-lg"
+              >
                 立即体验
               </button>
             </motion.div>
