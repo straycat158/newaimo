@@ -124,7 +124,7 @@ export default function Home() {
               {[
                 { title: '播放界面', desc: '纯粹的黑胶质感', image: '/screenshots/screen-1.png' },
                 { title: '发现音乐', desc: '探索未知的声音', image: '/screenshots/screen-2.png' },
-                { title: '个人主页', desc: '你的音乐DNA', image: '/screenshots/screen-3.png' },
+                { title: '收藏界面', desc: '你的音乐DNA', image: '/screenshots/screen-3.png' },
                 { title: '动态歌词', desc: '字字句句，声声入耳', image: '/screenshots/screen-4.png' },
               ].map((screen, idx) => (
                 <div key={idx} className="min-w-[240px] md:min-w-[340px] snap-center group">
