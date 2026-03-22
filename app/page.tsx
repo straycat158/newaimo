@@ -1,10 +1,34 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import fs from 'fs';
+import path from 'path';
 import { Search, User, Monitor, Smartphone, Music, Headphones, Radio, Download, ArrowRight, PenTool, Layers, Sparkles } from 'lucide-react';
 import Carousel from '@/components/carousel';
 import Sidebar from '@/components/sidebar';
 
+function getMilestones() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'milestones.txt');
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const lines = fileContents.split('\n').filter(line => line.trim() !== '');
+    return lines.map(line => {
+      const [version, date, title, desc] = line.split('|');
+      return { 
+        version: version?.trim(), 
+        date: date?.trim(), 
+        title: title?.trim(), 
+        desc: desc?.trim() 
+      };
+    });
+  } catch (error) {
+    console.error('Error reading milestones.txt:', error);
+    return [];
+  }
+}
+
 export default function Home() {
+  const milestones = getMilestones();
+
   return (
     <div className="min-h-screen bg-[#FAFAFA] font-sans text-zinc-900">
       <Sidebar />
@@ -174,12 +198,7 @@ export default function Home() {
             </div>
             
             <div className="relative before:absolute before:inset-0 before:left-6 md:before:left-1/2 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-zinc-300 before:to-transparent space-y-12 md:space-y-16">
-              {[
-                { version: 'v3.0', date: '2026.03', title: '极简新生', desc: '全面引入 Material Design 3，重构黑白极简视觉体系，带来沉浸式体验。' },
-                { version: 'v2.5', date: '2025.11', title: '智能推荐', desc: '上线自研 AI 推荐引擎，深度学习听歌习惯，让每一首歌都击中内心。' },
-                { version: 'v2.0', date: '2025.06', title: '无损音质', desc: '全库支持 Hi-Res 无损音频，重构底层播放内核，带来母带级听觉享受。' },
-                { version: 'v1.0', date: '2024.12', title: '初次见面', desc: '艾莫音乐 1.0 正式发布，化繁为简，开启纯粹音乐之旅。' },
-              ].map((item, idx) => (
+              {milestones.map((item, idx) => (
                 <div key={idx} className="relative flex flex-col md:flex-row justify-between items-start md:items-center md:odd:flex-row-reverse group">
                   {/* Timeline Dot */}
                   <div className="absolute left-6 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 md:w-12 md:h-12 rounded-full border-[4px] md:border-[6px] border-[#FAFAFA] bg-black z-10 group-hover:scale-110 transition-transform duration-300">
