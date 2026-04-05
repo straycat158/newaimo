@@ -237,7 +237,7 @@ export default function Home() {
                 <h2 className="text-4xl md:text-6xl font-serif font-bold mb-4 md:mb-6 tracking-tight">艾莫音乐，无处不在</h2>
                 <p className="text-lg md:text-2xl text-zinc-400 font-medium">下载客户端，享受更流畅、更优质的音乐体验</p>
               </div>
-              <a href="https://lz.qaiu.top/lz/ivFQE3j535kb@7yiu" target="_blank" rel="noopener noreferrer" className="bg-white text-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-zinc-200 active:scale-95 transition-all shadow-lg flex items-center gap-2 md:gap-3 inline-flex">
+              <a href="http://wuxianggujun.com:6400/lz/iMsqS3miv5yj@5cyp" target="_blank" rel="noopener noreferrer" className="bg-white text-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-base md:text-lg hover:bg-zinc-200 active:scale-95 transition-all shadow-lg flex items-center gap-2 md:gap-3 inline-flex">
                 <Download className="w-5 h-5 md:w-6 md:h-6" />
                 全部下载
               </a>
