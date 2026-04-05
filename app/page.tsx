@@ -246,7 +246,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-3xl">
               {[
                 { icon: Monitor, name: 'PC 版', desc: 'Windows 10/11', status: '待开发', link: '#' },
-                { icon: Smartphone, name: 'Android 版', desc: '各大应用市场', link: 'https://lz.qaiu.top/lz/ivFQE3j535kb@7yiu' },
+                { icon: Smartphone, name: 'Android 版', desc: '各大应用市场', link: 'http://wuxianggujun.com:6400/lz/iMsqS3miv5yj@5cyp },
               ].map((platform, idx) => {
                 const Content = (
                   <>
