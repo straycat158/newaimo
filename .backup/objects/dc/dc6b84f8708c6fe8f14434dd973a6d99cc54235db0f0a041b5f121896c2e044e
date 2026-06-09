@@ -60,7 +60,12 @@ export default function Home() {
     },
   ];
 
-  // Interface showcase data lives in components/showcase-reveal.tsx
+  const screenshots = [
+    { title: '播放界面', desc: '纯粹、聚焦、无干扰', image: '/screenshots/screen-1.png' },
+    { title: '发现音乐', desc: '探索新的声音秩序', image: '/screenshots/screen-2.png' },
+    { title: '收藏空间', desc: '构建你的音乐档案', image: '/screenshots/screen-3.png' },
+    { title: '动态歌词', desc: '让歌词跟随情绪流动', image: '/screenshots/screen-4.png' },
+  ];
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#F7F6F2] text-zinc-950 antialiased selection:bg-zinc-950 selection:text-white">

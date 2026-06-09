@@ -60,7 +60,12 @@ export default function Home() {
     },
   ];
 
-  // Interface showcase data lives in components/showcase-reveal.tsx
+  const screenshots = [
+    { title: '播放界面', desc: '纯粹、聚焦、无干扰', image: '/screenshots/screen-1.png' },
+    { title: '发现音乐', desc: '探索新的声音秩序', image: '/screenshots/screen-2.png' },
+    { title: '收藏空间', desc: '构建你的音乐档案', image: '/screenshots/screen-3.png' },
+    { title: '动态歌词', desc: '让歌词跟随情绪流动', image: '/screenshots/screen-4.png' },
+  ];
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#F7F6F2] text-zinc-950 antialiased selection:bg-zinc-950 selection:text-white">
@@ -218,7 +223,33 @@ export default function Home() {
           </div>
         </section>
 
-        <ShowcaseReveal />
+        <section id="screenshots" className="bg-zinc-950 px-3 py-14 text-white md:px-6 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-10 flex flex-col justify-between gap-5 md:mb-16 md:flex-row md:items-end">
+              <div>
+                <p className="mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.28em] text-zinc-400">
+                  <Layers className="h-4 w-4" />
+                  Interface
+                </p>
+                <h2 className="text-3xl font-semibold tracking-[-0.04em] md:text-6xl">克制的界面语言。</h2>
+              </div>
+              <p className="max-w-sm text-sm leading-7 text-zinc-400 md:text-base">横向滑动查看核心界面，每一屏都围绕“专注聆听”设计。</p>
+            </div>
+
+            <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 pr-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:gap-6">
+              {screenshots.map((screen) => (
+                <div key={screen.title} className="min-w-[76vw] snap-center sm:min-w-[280px] md:min-w-[340px]">
+                  <div className="relative aspect-[9/16] overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-900 shadow-[0_30px_80px_rgba(0,0,0,0.35)] md:rounded-[2.5rem]">
+                    <Image src={screen.image} alt={screen.title} fill className="object-cover" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 ring-1 ring-inset ring-white/10" />
+                  </div>
+                  <h3 className="mt-5 text-xl font-semibold tracking-tight">{screen.title}</h3>
+                  <p className="mt-1 text-sm text-zinc-400">{screen.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <section id="design" className="px-3 py-14 md:px-6 md:py-24">
           <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-[0.9fr_1.1fr]">
