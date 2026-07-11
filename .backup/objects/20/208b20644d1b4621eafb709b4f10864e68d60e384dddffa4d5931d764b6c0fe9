@@ -136,7 +136,7 @@ export default function Home() {
                     href={downloadUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="shine-button inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-base font-semibold text-zinc-950 shadow-2xl transition duration-300 hover:-translate-y-0.5 hover:bg-zinc-100 active:scale-95"
+                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-base font-semibold text-zinc-950 shadow-2xl transition hover:-translate-y-0.5 hover:bg-zinc-100 active:scale-95"
                   >
                     <Download className="h-5 w-5" />
                     下载 Android 版
@@ -153,7 +153,7 @@ export default function Home() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-              <div className="surface-card rounded-[2rem] border border-white/80 bg-white/65 p-6 shadow-[0_18px_55px_rgba(0,0,0,0.06)] backdrop-blur-xl transition duration-500 hover:-translate-y-1 hover:shadow-[0_26px_70px_rgba(0,0,0,0.09)] md:rounded-[2.5rem] md:p-8">
+              <div className="rounded-[2rem] border border-black/[0.06] bg-white/70 p-6 shadow-sm backdrop-blur md:rounded-[2.5rem] md:p-8">
                 <p className="text-sm font-semibold uppercase tracking-[0.24em] text-zinc-500">Now Playing</p>
                 <div className="mt-8 flex items-end justify-between gap-6">
                   <div>
@@ -203,7 +203,7 @@ export default function Home() {
               {features.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className="surface-card group overflow-hidden rounded-[2rem] border border-white/80 bg-white/70 p-6 shadow-[0_16px_50px_rgba(0,0,0,0.05)] backdrop-blur-xl transition duration-500 hover:-translate-y-2 hover:bg-white/90 hover:shadow-[0_28px_75px_rgba(0,0,0,0.10)] md:p-8"
+                  className="group rounded-[2rem] border border-black/[0.06] bg-white/75 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_60px_rgba(0,0,0,0.08)] md:p-8"
                 >
                   <div className="mb-10 flex items-center justify-between">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-950 text-white transition group-hover:scale-105">

@@ -203,7 +203,7 @@ export default function Home() {
               {features.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className="surface-card group overflow-hidden rounded-[2rem] border border-white/80 bg-white/70 p-6 shadow-[0_16px_50px_rgba(0,0,0,0.05)] backdrop-blur-xl transition duration-500 hover:-translate-y-2 hover:bg-white/90 hover:shadow-[0_28px_75px_rgba(0,0,0,0.10)] md:p-8"
+                  className="group rounded-[2rem] border border-black/[0.06] bg-white/75 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_60px_rgba(0,0,0,0.08)] md:p-8"
                 >
                   <div className="mb-10 flex items-center justify-between">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-950 text-white transition group-hover:scale-105">
