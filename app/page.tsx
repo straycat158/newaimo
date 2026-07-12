@@ -19,7 +19,7 @@ import Sidebar from '@/components/sidebar';
 import ShowcaseReveal from '@/components/showcase-reveal';
 import FadeIn from '@/components/fade-in';
 
-const downloadUrl = 'https://h1026.lanosso.com/cedf7d9518ec2e9f7e2877b02720f767/6a53aeb8/2026/07/12/9550e63a5e706169ebc2bacd2163afdf.apk?fn=%E8%89%BE%E8%8E%AB%E9%9F%B3%E4%B9%90_1.0.0.apk';
+const downloadUrl = 'https://h1026.lanosso.com/c6ab82f107cea24c8671f95e11af191b/6a53bf69/2026/07/12/9550e63a5e706169ebc2bacd2163afdf.apk?fn=%E8%89%BE%E8%8E%AB%E9%9F%B3%E4%B9%90_1.0.0.apk';
 
 function getMilestones() {
   try {
