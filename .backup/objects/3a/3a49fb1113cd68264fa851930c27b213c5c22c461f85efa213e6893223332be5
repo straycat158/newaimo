@@ -76,8 +76,8 @@ export default function ShowcaseReveal() {
 
           <div className="relative grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div className="mx-auto w-full max-w-[360px]">
-              <div className="rounded-[2.4rem] bg-[#e7e0ec] p-2 shadow-[0_28px_80px_rgba(103,80,164,0.20)]">
-                <div className="relative aspect-[9/16] overflow-hidden rounded-[1.9rem] bg-[#fffbff]">
+              <div className="rounded-[2.4rem] bg-[#1d1b20] p-2 shadow-[0_28px_80px_rgba(29,27,32,0.28)]">
+                <div className="relative aspect-[9/16] overflow-hidden rounded-[1.9rem] bg-black">
                   <Image
                     src="/screenshots/screen-1.png"
                     alt="艾莫音乐播放主界面"
