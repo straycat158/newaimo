@@ -13,6 +13,7 @@ import {
   Smartphone,
   Sparkles,
   User,
+  Waves,
 } from 'lucide-react';
 import Sidebar from '@/components/sidebar';
 import ShowcaseReveal from '@/components/showcase-reveal';
