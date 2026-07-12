@@ -19,7 +19,7 @@ import Sidebar from '@/components/sidebar';
 import ShowcaseReveal from '@/components/showcase-reveal';
 import FadeIn from '@/components/fade-in';
 
-const downloadUrl = 'https://h1026.lanosso.com/c6ab82f107cea24c8671f95e11af191b/6a53bf69/2026/07/12/9550e63a5e706169ebc2bacd2163afdf.apk?fn=%E8%89%BE%E8%8E%AB%E9%9F%B3%E4%B9%90_1.0.0.apk';
+const downloadUrl = 'https://wwamd.lanzouw.com/inQoc3w1r3tg';
 
 function getMilestones() {
   try {
@@ -140,7 +140,7 @@ export default function Home() {
                     className="shine-button inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#6750a4] px-6 py-3 text-base font-bold text-white shadow-lg shadow-[#6750a4]/20 transition hover:-translate-y-0.5 hover:bg-[#5d4799] active:scale-95"
                   >
                     <Download className="h-5 w-5" />
-                    下载 Android 版
+                    下载 Android 版(密码：9ubo)
                   </a>
                   <Link
                     href="#screenshots"
@@ -311,7 +311,7 @@ export default function Home() {
                   className="shine-button mt-8 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#d0bcff] px-6 py-3 text-base font-black text-[#21005d] transition hover:-translate-y-0.5 hover:bg-[#eaddff] active:scale-95 sm:w-auto"
                 >
                   <Download className="h-5 w-5" />
-                  下载 Android 版
+                  下载 Android 版(密码：9ubo)
                 </a>
               </div>
 
