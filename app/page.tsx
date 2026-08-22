@@ -19,23 +19,32 @@ import Sidebar from '@/components/sidebar';
 import ShowcaseReveal from '@/components/showcase-reveal';
 import FadeIn from '@/components/fade-in';
 
-const downloadUrl = 'https://wwamd.lanzouw.com/inQoc3w1r3tg';
+const downloadUrl = 'https://wwamd.lanzouw.com/iSq98440sjxe';
 
 function getMilestones() {
   try {
     const filePath = path.join(process.cwd(), 'data', 'milestones.txt');
     const fileContents = fs.readFileSync(filePath, 'utf8');
-    const lines = fileContents.split('\n').filter((line) => line.trim() !== '');
+    const milestones: Array<{ version: string; date: string; title: string; desc: string; updates: string[] }> = [];
+    let current: (typeof milestones)[number] | undefined;
 
-    return lines.map((line) => {
-      const [version, date, title, desc] = line.split('|');
-      return {
-        version: version?.trim(),
-        date: date?.trim(),
-        title: title?.trim(),
-        desc: desc?.trim(),
-      };
+    fileContents.split(/\r?\n/).forEach((line) => {
+      const trimmedLine = line.trim();
+      if (!trimmedLine) return;
+
+      if (/^v\d+(?:\.\d+)+\|/.test(trimmedLine)) {
+        const [version = '', date = '', title = '', desc = ''] = trimmedLine.split('|');
+        current = { version: version.trim(), date: date.trim(), title: title.trim(), desc: desc.trim(), updates: [] };
+        milestones.push(current);
+        return;
+      }
+
+      if (current) {
+        current.updates.push(trimmedLine.replace(/^\d+\.\s*/, ''));
+      }
     });
+
+    return milestones;
   } catch {
     return [];
   }
@@ -106,29 +115,29 @@ export default function Home() {
       </header>
 
       <main>
-        <section id="hero" className="relative px-3 pb-12 pt-5 md:px-6 md:pb-20 md:pt-8">
-          <div className="md3-hero-bg pointer-events-none absolute inset-x-0 top-0 -z-10 h-[760px]" />
+        <section id="hero" className="relative px-3 pb-10 pt-4 md:px-6 md:pb-16 md:pt-6">
+          <div className="md3-hero-bg pointer-events-none absolute inset-x-0 top-0 -z-10 h-[700px]" />
 
-          <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-[1.04fr_0.96fr]">
-            <FadeIn className="md3-card relative overflow-hidden rounded-[2rem] bg-[#f3edf7] p-6 md:rounded-[2.25rem] md:p-10 lg:min-h-[640px]">
+          <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-[1.08fr_0.92fr]">
+            <FadeIn className="md3-card relative overflow-hidden rounded-[2rem] bg-[#f3edf7] p-6 md:rounded-[2.25rem] md:p-9 lg:min-h-[590px]">
               <div className="absolute right-6 top-6 hidden rounded-full bg-white/70 px-4 py-2 text-xs font-bold tracking-[0.18em] text-[#6750a4] md:block">
                 MATERIAL DESIGN 3
               </div>
 
-              <div className="flex min-h-[520px] flex-col justify-between gap-10">
+              <div className="flex min-h-[470px] flex-col justify-between gap-10">
                 <div>
                   <div className="mb-7 inline-flex items-center gap-2 rounded-full bg-[#eaddff] px-4 py-2 text-xs font-bold tracking-[0.16em] text-[#21005d]">
                     <Sparkles className="h-4 w-4" />
-                    为播放器而生的官网
+                    让每一次播放都更顺手
                   </div>
 
-                  <h1 className="max-w-3xl text-4xl font-black leading-[1.02] tracking-[-0.05em] text-[#1d1b20] sm:text-5xl md:text-7xl">
-                    用 Material You，
-                    <span className="text-[#6750a4]">重新介绍艾莫音乐。</span>
+                  <h1 className="max-w-3xl text-4xl font-black leading-[1.05] tracking-[-0.05em] text-[#1d1b20] sm:text-5xl md:text-6xl lg:text-7xl">
+                    把喜欢的音乐，
+                    <span className="text-[#6750a4]">留在触手可及的地方。</span>
                   </h1>
 
                   <p className="mt-6 max-w-2xl text-base leading-8 text-[#625b71] md:text-xl md:leading-9">
-                    不再堆砌装饰，而是像播放器一样建立清晰的容器、柔和的动态色和顺手的交互反馈。
+                    艾莫音乐让播放、发现与收藏回到最舒服的节奏。打开应用，找到想听的歌，然后沉浸其中。
                   </p>
                 </div>
 
@@ -140,7 +149,7 @@ export default function Home() {
                     className="shine-button inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#6750a4] px-6 py-3 text-base font-bold text-white shadow-lg shadow-[#6750a4]/20 transition hover:-translate-y-0.5 hover:bg-[#5d4799] active:scale-95"
                   >
                     <Download className="h-5 w-5" />
-                    下载 Android 版(密码：9ubo)
+                    下载 Android 版 · 密码 50p5
                   </a>
                   <Link
                     href="#screenshots"
@@ -153,12 +162,12 @@ export default function Home() {
               </div>
             </FadeIn>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1 lg:grid-rows-[auto_1fr]">
               <FadeIn delay={0.08} className="md3-card rounded-[2rem] bg-[#eaddff] p-5 md:rounded-[2.25rem] md:p-7">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-xs font-bold tracking-[0.18em] text-[#6750a4]">NOW PLAYING</p>
-                    <h2 className="mt-4 text-3xl font-black tracking-tight text-[#21005d]">Aimo 3.0</h2>
+                    <h2 className="mt-4 text-3xl font-black tracking-tight text-[#21005d]">Aimo Music</h2>
                     <p className="mt-2 text-sm leading-6 text-[#625b71]">动态色 · 圆角容器 · Material Motion</p>
                   </div>
                   <span className="flex h-16 w-16 items-center justify-center rounded-[1.45rem] bg-white/70 text-[#6750a4]">
@@ -177,7 +186,7 @@ export default function Home() {
                 </div>
               </FadeIn>
 
-              <FadeIn delay={0.16} className="relative min-h-[360px] overflow-hidden rounded-[2rem] bg-[#e8def8] shadow-xl shadow-[#6750a4]/10 md:rounded-[2.25rem] lg:min-h-0">
+              <FadeIn delay={0.16} className="relative min-h-[360px] overflow-hidden rounded-[2rem] bg-[#e8def8] shadow-xl shadow-[#6750a4]/10 md:rounded-[2.25rem] lg:min-h-[410px]">
                 <Image
                   src="/screenshots/screen-1.png"
                   alt="艾莫音乐播放界面"
@@ -188,20 +197,20 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#21005d]/82 via-[#6750a4]/10 to-transparent" />
                 <div className="absolute bottom-0 p-6 text-white md:p-8">
                   <p className="text-xs font-bold tracking-[0.18em] text-white/70">APP PREVIEW</p>
-                  <h3 className="mt-3 text-3xl font-black tracking-tight">让网页先像一个 App。</h3>
+                    <h3 className="mt-3 text-3xl font-black tracking-tight">先看见你熟悉的播放体验。</h3>
                 </div>
               </FadeIn>
             </div>
           </div>
         </section>
 
-        <section id="features" className="px-3 py-12 md:px-6 md:py-20">
+        <section id="features" className="px-3 py-10 md:px-6 md:py-16">
           <div className="mx-auto max-w-7xl">
-            <FadeIn className="mb-10 max-w-3xl md:mb-14">
+            <FadeIn className="mb-8 max-w-3xl md:mb-11">
               <p className="mb-3 text-xs font-black tracking-[0.22em] text-[#6750a4]">CORE EXPERIENCE</p>
-              <h2 className="text-3xl font-black tracking-[-0.04em] md:text-6xl">网页不抢播放器的戏，只负责把它讲清楚。</h2>
+              <h2 className="text-3xl font-black leading-tight tracking-[-0.04em] md:text-5xl lg:text-6xl">把时间留给音乐，把操作交给直觉。</h2>
               <p className="mt-5 max-w-2xl text-sm leading-7 text-[#625b71] md:text-base">
-                这版页面采用更接近移动应用的内容节奏：少一点大而空的宣传，多一点真实可感的产品界面。
+                从播放到收藏，每个常用动作都保持清晰、轻快，不让多余的界面打断你的聆听。
               </p>
             </FadeIn>
 
@@ -210,7 +219,7 @@ export default function Home() {
                 <FadeIn
                   key={feature.title}
                   delay={index * 0.08}
-                  className="md3-card group rounded-[2rem] bg-[#f7f2fa] p-6 transition hover:-translate-y-1 md:p-8"
+                  className="md3-card group rounded-[2rem] bg-[#f7f2fa] p-6 transition hover:-translate-y-1 md:p-7"
                 >
                   <div className="mb-10 flex items-center justify-between">
                     <span className="flex h-14 w-14 items-center justify-center rounded-[1.4rem] bg-[#eaddff] text-[#6750a4] transition group-hover:scale-105">
@@ -228,11 +237,11 @@ export default function Home() {
 
         <ShowcaseReveal />
 
-        <section id="design" className="px-3 py-12 md:px-6 md:py-20">
+        <section id="design" className="px-3 py-10 md:px-6 md:py-16">
           <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-            <FadeIn className="md3-card rounded-[2rem] bg-[#f7f2fa] p-7 md:rounded-[2.25rem] md:p-10">
+            <FadeIn className="md3-card rounded-[2rem] bg-[#f7f2fa] p-6 md:rounded-[2.25rem] md:p-9">
               <p className="mb-3 text-xs font-black tracking-[0.22em] text-[#6750a4]">DESIGN SYSTEM</p>
-              <h2 className="text-3xl font-black tracking-[-0.04em] md:text-5xl">克制使用 Material Design 3，而不是把颜色铺满页面。</h2>
+              <h2 className="text-3xl font-black tracking-[-0.04em] md:text-5xl">清晰的界面，让音乐自然成为主角。</h2>
               <div className="mt-8 grid gap-3">
                 {interfaceCards.map((item) => (
                   <div key={item.title} className="rounded-[1.5rem] bg-white p-5">
@@ -246,7 +255,7 @@ export default function Home() {
               </div>
             </FadeIn>
 
-            <FadeIn delay={0.08} className="relative min-h-[420px] overflow-hidden rounded-[2rem] bg-[#d0bcff] md:rounded-[2.25rem] lg:min-h-[560px]">
+            <FadeIn delay={0.08} className="relative min-h-[360px] overflow-hidden rounded-[2rem] bg-[#d0bcff] md:rounded-[2.25rem] lg:min-h-[520px]">
               <Image
                 src="https://picsum.photos/seed/aimo-material-clean/1200/900"
                 alt="Material Design 3"
@@ -257,17 +266,17 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#21005d]/80 via-[#6750a4]/20 to-transparent" />
               <div className="absolute bottom-0 max-w-2xl p-7 text-white md:p-10">
                 <p className="text-xs font-bold tracking-[0.18em] text-white/70">MATERIAL MOTION</p>
-                <h3 className="mt-3 text-3xl font-black tracking-tight md:text-5xl">动效只做一件事：让状态变化更容易被理解。</h3>
+                <h3 className="mt-3 text-3xl font-black tracking-tight md:text-5xl">每一次反馈，都恰到好处。</h3>
               </div>
             </FadeIn>
           </div>
         </section>
 
-        <section id="milestones" className="px-3 py-12 md:px-6 md:py-20">
-          <FadeIn className="mx-auto max-w-5xl rounded-[2rem] bg-[#f3edf7] p-6 md:rounded-[2.25rem] md:p-10">
+        <section id="milestones" className="px-3 py-10 md:px-6 md:py-16">
+          <FadeIn className="mx-auto max-w-5xl rounded-[2rem] bg-[#f3edf7] p-6 md:rounded-[2.25rem] md:p-9">
             <div className="mb-10 text-center">
               <p className="mb-3 text-xs font-black tracking-[0.22em] text-[#6750a4]">UPDATES</p>
-              <h2 className="text-3xl font-black tracking-[-0.04em] md:text-5xl">持续更新，但保持简单。</h2>
+              <h2 className="text-3xl font-black tracking-[-0.04em] md:text-5xl">一路更新，只为更好地听歌。</h2>
             </div>
 
             <div className="space-y-3">
@@ -284,7 +293,17 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="font-black">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-[#625b71]">{item.desc}</p>
+                    {item.desc && <p className="mt-2 text-sm leading-7 text-[#625b71]">{item.desc}</p>}
+                    {item.updates.length > 0 && (
+                      <ul className="mt-4 grid gap-2 text-sm leading-6 text-[#625b71] md:grid-cols-2">
+                        {item.updates.map((update) => (
+                          <li key={update} className="flex items-start gap-2">
+                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#6750a4]" />
+                            <span>{update}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </FadeIn>
               ))}
@@ -292,7 +311,7 @@ export default function Home() {
           </FadeIn>
         </section>
 
-        <section id="download" className="px-3 pb-4 pt-8 md:px-6 md:pb-6 md:pt-12">
+        <section id="download" className="px-3 pb-4 pt-6 md:px-6 md:pb-6 md:pt-8">
           <FadeIn className="mx-auto overflow-hidden rounded-[2rem] bg-[#1d1b20] text-white md:rounded-[2.5rem]">
             <div className="relative mx-auto grid max-w-7xl gap-8 p-7 md:p-12 lg:grid-cols-[1fr_0.78fr] lg:p-16">
               <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[#6750a4]/50 blur-3xl" />
@@ -300,9 +319,9 @@ export default function Home() {
 
               <div className="relative z-10">
                 <p className="mb-4 text-xs font-black tracking-[0.22em] text-[#d0bcff]">DOWNLOAD</p>
-                <h2 className="text-4xl font-black tracking-[-0.06em] md:text-7xl">把播放器装进口袋。</h2>
+                <h2 className="text-4xl font-black tracking-[-0.06em] md:text-7xl">现在，就开始听。</h2>
                 <p className="mt-6 max-w-2xl text-base leading-8 text-white/70 md:text-xl md:leading-9">
-                  下载 Android 版艾莫音乐，体验更完整的 Material Design 3 播放器。
+                  下载 Android 版艾莫音乐，把喜欢的歌和播放体验一起带走。
                 </p>
                 <a
                   href={downloadUrl}
@@ -311,14 +330,14 @@ export default function Home() {
                   className="shine-button mt-8 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#d0bcff] px-6 py-3 text-base font-black text-[#21005d] transition hover:-translate-y-0.5 hover:bg-[#eaddff] active:scale-95 sm:w-auto"
                 >
                   <Download className="h-5 w-5" />
-                  下载 Android 版(密码：9ubo)
+                  下载 Android 版 · 密码 50p5
                 </a>
               </div>
 
               <div className="relative z-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
                 {[
-                  { icon: Smartphone, name: 'Android 版', desc: '立即下载体验', link: downloadUrl },
-                  { icon: Monitor, name: 'PC 版', desc: '正在打磨中', status: '待开发', link: '#' },
+                  { icon: Smartphone, name: 'Android 版', desc: '立即开始播放', link: downloadUrl },
+                  { icon: Monitor, name: 'PC 版', desc: '桌面端体验即将到来', status: '即将推出', link: '#' },
                 ].map((platform) => (
                   platform.status ? (
                     <div key={platform.name} className="relative rounded-[1.75rem] bg-white/10 p-6 opacity-75">

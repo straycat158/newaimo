@@ -56,11 +56,11 @@ export default function ShowcaseReveal() {
               INTERFACE
             </p>
             <h2 className="text-3xl font-black tracking-[-0.04em] text-[#1d1b20] md:text-6xl">
-              真实界面，像 App 发布页一样呈现。
+              看见你的下一首歌。
             </h2>
           </div>
           <p className="max-w-md text-sm leading-7 text-[#625b71] md:text-base">
-            重新设计截图展示区：不再只有左右弹出，而是用主舞台承载核心界面，用横向轨道展示更多状态。
+            从播放、发现到收藏，看看艾莫音乐如何把常用体验放在更顺手的位置。
           </p>
         </motion.div>
 
@@ -93,10 +93,10 @@ export default function ShowcaseReveal() {
               <div className="rounded-[1.8rem] bg-white/72 p-6 backdrop-blur md:p-8">
                 <p className="text-xs font-black tracking-[0.2em] text-[#6750a4]">AIMO MUSIC 3.0</p>
                 <h3 className="mt-4 text-3xl font-black tracking-[-0.04em] text-[#1d1b20] md:text-5xl">
-                  把播放器体验，直接放到网页中心。
+                  让播放体验回到中心。
                 </h3>
                 <p className="mt-5 text-sm leading-8 text-[#625b71] md:text-base">
-                  主截图使用深色手机框承载，形成更明确的 App 预览感。右侧说明用 Material Surface 展示，让用户先理解产品，再查看细节。
+                  清晰的封面、歌词与播放控制，让你更快找到状态，也更少被操作打断。
                 </p>
               </div>
 
