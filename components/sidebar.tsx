@@ -1,15 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Home, Sparkles, Layers, PenTool, Milestone, Download, Menu, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import MaterialIcon from '@/components/material-icon';
 
 const navItems = [
-  { id: 'hero', label: '首页', icon: Home },
-  { id: 'features', label: '特性', icon: Sparkles },
-  { id: 'screenshots', label: '界面', icon: Layers },
-  { id: 'design', label: '设计', icon: PenTool },
-  { id: 'milestones', label: '历程', icon: Milestone },
-  { id: 'download', label: '下载', icon: Download },
+  { id: 'hero', label: '首页', icon: 'home' as const },
+  { id: 'features', label: '特性', icon: 'auto_awesome' as const },
+  { id: 'screenshots', label: '界面', icon: 'view_carousel' as const },
+  { id: 'design', label: '设计', icon: 'design_services' as const },
+  { id: 'milestones', label: '历程', icon: 'timeline' as const },
+  { id: 'download', label: '下载', icon: 'download' as const },
 ];
 
 export default function Sidebar() {
@@ -19,13 +19,10 @@ export default function Sidebar() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible) setActiveSection(visible.target.id);
       },
-      { rootMargin: '-20% 0px -70% 0px' }
+      { rootMargin: '-20% 0px -68% 0px' },
     );
 
     navItems.forEach(({ id }) => {
@@ -37,73 +34,59 @@ export default function Sidebar() {
   }, []);
 
   const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsOpen(false);
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setIsOpen(false);
   };
 
   return (
     <>
-      {/* Desktop Sidebar */}
-      <div className="fixed right-6 top-1/2 z-50 hidden -translate-y-1/2 flex-col gap-2 rounded-full border border-[#e7e0ec] bg-[#fffbff]/82 p-2 shadow-[0_18px_50px_rgba(103,80,164,0.16)] backdrop-blur-2xl lg:flex">
-        {navItems.map(({ id, label, icon: Icon }) => {
-          const isActive = activeSection === id;
-          return (
-            <button
-              key={id}
-              onClick={() => scrollTo(id)}
-              className={`group relative flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 ${
-                isActive ? 'scale-105 bg-[#6750a4] text-white shadow-md shadow-[#6750a4]/25' : 'text-[#625b71] hover:bg-[#eaddff] hover:text-[#21005d]'
-              }`}
-              aria-label={label}
-            >
-              <Icon className="h-5 w-5" />
-              <span className="pointer-events-none absolute right-full mr-4 whitespace-nowrap rounded-full border border-[#e7e0ec] bg-[#fffbff] px-3 py-1.5 text-sm font-bold text-[#21005d] opacity-0 shadow-[0_12px_32px_rgba(103,80,164,0.16)] transition-opacity group-hover:opacity-100">
-                {label}
-                <span className="absolute -right-1 top-1/2 h-2 w-2 -translate-y-1/2 rotate-45 border-r border-t border-[#e7e0ec] bg-[#fffbff]" />
-              </span>
-            </button>
-          );
-        })}
-      </div>
+      <nav className="material-nav-rail" aria-label="页面导航">
+        {navItems.map(({ id, label, icon }) => (
+          <button
+            key={id}
+            type="button"
+            className={`material-nav-destination ${activeSection === id ? 'is-active' : ''}`}
+            onClick={() => scrollTo(id)}
+            aria-label={label}
+            aria-current={activeSection === id ? 'page' : undefined}
+          >
+            <md-ripple />
+            <span className="material-nav-icon"><MaterialIcon name={icon} size={21} /></span>
+            <span className="material-nav-label">{label}</span>
+          </button>
+        ))}
+      </nav>
 
-      {/* Mobile FAB & Menu */}
-      <div className="fixed bottom-6 right-5 z-50 lg:hidden">
-        <div className={`absolute bottom-16 right-0 flex origin-bottom flex-col gap-2 transition-all duration-300 ${isOpen ? 'pointer-events-auto scale-100 opacity-100' : 'pointer-events-none scale-95 opacity-0'}`}>
-          {navItems.map(({ id, label, icon: Icon }) => {
-            const isActive = activeSection === id;
-            return (
+      <div className="material-mobile-nav">
+        {isOpen && (
+          <div className="material-mobile-sheet" role="menu">
+            <md-elevation />
+            {navItems.map(({ id, label, icon }) => (
               <button
                 key={id}
+                type="button"
+                role="menuitem"
+                className={`material-mobile-destination ${activeSection === id ? 'is-active' : ''}`}
                 onClick={() => scrollTo(id)}
-                className={`flex items-center gap-3 rounded-full border px-4 py-3 shadow-[0_12px_32px_rgba(103,80,164,0.16)] backdrop-blur-xl transition-all ${
-                  isActive ? 'border-[#6750a4] bg-[#6750a4] text-white' : 'border-[#e7e0ec] bg-[#fffbff]/92 text-[#625b71] hover:bg-[#eaddff] hover:text-[#21005d]'
-                }`}
               >
-                <span className="whitespace-nowrap text-sm font-bold">{label}</span>
-                <Icon className="h-5 w-5" />
+                <md-ripple />
+                <MaterialIcon name={icon} size={21} />
+                <span>{label}</span>
               </button>
-            );
-          })}
-        </div>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex h-14 w-14 items-center justify-center rounded-[1.25rem] bg-[#eaddff] text-[#21005d] shadow-[0_16px_42px_rgba(103,80,164,0.28)] transition-all hover:scale-105 hover:bg-[#d0bcff] active:scale-95"
-          aria-label="打开页面导航"
+            ))}
+          </div>
+        )}
+
+        <md-fab
+          variant="primary"
+          aria-label={isOpen ? '关闭页面导航' : '打开页面导航'}
+          onClick={() => setIsOpen((value) => !value)}
         >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+          <MaterialIcon slot="icon" name={isOpen ? 'close' : 'menu'} size={24} />
+        </md-fab>
       </div>
-      
-      {/* Mobile Overlay */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 z-40 bg-[#1d1b20]/10 backdrop-blur-sm lg:hidden"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
+
+      {isOpen && <button className="material-scrim" aria-label="关闭页面导航" onClick={() => setIsOpen(false)} />}
     </>
   );
 }

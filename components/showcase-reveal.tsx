@@ -2,151 +2,121 @@
 
 import Image from 'next/image';
 import { motion } from 'motion/react';
-import { Layers, Library, Mic2, Music2, Radio } from 'lucide-react';
+import MaterialIcon from '@/components/material-icon';
 
 const screens = [
   {
     title: '播放页',
-    label: 'Player',
-    desc: '封面、歌词和播放控制被放在更稳定的层级中，减少操作时的注意力跳转。',
+    label: 'PLAYER',
+    desc: '封面、歌词和控制区层级清晰，常用操作始终触手可及。',
     image: '/screenshots/screen-1.png',
-    icon: Music2,
+    icon: 'music_note' as const,
   },
   {
     title: '发现页',
-    label: 'Discover',
-    desc: '推荐内容用柔和容器呈现，信息密度更轻，浏览节奏更接近原生应用。',
+    label: 'DISCOVER',
+    desc: '推荐歌单与官方榜单集中呈现，找到下一首歌更轻松。',
     image: '/screenshots/screen-2.png',
-    icon: Radio,
+    icon: 'radio' as const,
   },
   {
     title: '收藏页',
-    label: 'Library',
-    desc: '收藏、歌单和历史被整理成清晰分区，让常听内容保持低成本访问。',
+    label: 'LIBRARY',
+    desc: '歌曲、歌单和历史被有序收纳，也可以创建自己的歌单。',
     image: '/screenshots/screen-3.png',
-    icon: Library,
+    icon: 'library_music' as const,
   },
   {
     title: '歌词页',
-    label: 'Lyrics',
-    desc: '歌词动效更克制稳定，让情绪跟随音乐流动，而不是制造视觉负担。',
+    label: 'LYRICS',
+    desc: '滚动动效跟随歌曲推进，让歌词阅读自然融入播放过程。',
     image: '/screenshots/screen-4.png',
-    icon: Mic2,
+    icon: 'lyrics' as const,
   },
 ];
 
-const viewport = { once: true, amount: 0.25 };
+const viewport = { once: true, amount: 0.2 };
 
 export default function ShowcaseReveal() {
   return (
-    <section id="screenshots" className="relative overflow-hidden px-3 py-14 md:px-6 md:py-24">
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[760px] bg-[radial-gradient(circle_at_18%_4%,rgba(234,221,255,0.95),transparent_26rem),radial-gradient(circle_at_82%_18%,rgba(208,188,255,0.42),transparent_28rem)]" />
-
-      <div className="mx-auto max-w-7xl">
+    <section id="screenshots" className="material-section material-showcase-section">
+      <div className="material-section-inner">
         <motion.div
-          initial={{ opacity: 0, y: 22 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewport}
-          transition={{ duration: 0.62, ease: [0.2, 0, 0, 1] }}
-          className="mb-10 flex flex-col justify-between gap-5 md:mb-14 md:flex-row md:items-end"
+          transition={{ duration: 0.55, ease: [0.2, 0, 0, 1] }}
+          className="material-section-heading material-section-heading-split"
         >
-          <div className="max-w-3xl">
-            <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#eaddff] px-4 py-2 text-xs font-black tracking-[0.2em] text-[#6750a4]">
-              <Layers className="h-4 w-4" />
-              INTERFACE
-            </p>
-            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#1d1b20] md:text-6xl">
-              看见你的下一首歌。
-            </h2>
+          <div>
+            <md-assist-chip elevated>
+              <MaterialIcon name="view_carousel" size={18} slot="icon" />
+              产品界面
+            </md-assist-chip>
+            <h2>看见你的下一首歌。</h2>
           </div>
-          <p className="max-w-md text-sm leading-7 text-[#625b71] md:text-base">
-            从播放、发现到收藏，看看艾莫音乐如何把常用体验放在更顺手的位置。
-          </p>
+          <p>从播放、发现到收藏，真实界面展示艾莫音乐如何把常用体验放在更顺手的位置。</p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 28, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={viewport}
-          transition={{ duration: 0.72, ease: [0.2, 0, 0, 1] }}
-          className="md3-card relative overflow-hidden rounded-[2rem] bg-[#f3edf7] p-4 md:rounded-[2.5rem] md:p-8"
+          transition={{ duration: 0.65, ease: [0.2, 0, 0, 1] }}
+          className="material-showcase-stage material-surface material-surface-container"
         >
-          <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#d0bcff]/55 blur-3xl" />
-          <div className="absolute -bottom-24 left-8 h-72 w-72 rounded-full bg-[#eaddff]/75 blur-3xl" />
+          <md-elevation />
+          <div className="material-phone-frame">
+            <Image src="/screenshots/screen-1.png" alt="艾莫音乐播放主界面" fill className="material-phone-image" priority />
+          </div>
 
-          <div className="relative grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-            <div className="mx-auto w-full max-w-[360px]">
-              <div className="rounded-[2.4rem] bg-[#e7e0ec] p-2 shadow-[0_28px_80px_rgba(103,80,164,0.20)]">
-                <div className="relative aspect-[9/16] overflow-hidden rounded-[1.9rem] bg-[#fffbff]">
-                  <Image
-                    src="/screenshots/screen-1.png"
-                    alt="艾莫音乐播放主界面"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="material-showcase-copy">
+            <span className="material-overline">AIMO MUSIC 1.2</span>
+            <h3>让播放体验回到中心。</h3>
+            <p>清晰的封面、歌词与播放控制，让你更快找到状态，也更少被操作打断。</p>
 
-            <div className="space-y-5">
-              <div className="rounded-[1.8rem] bg-white/72 p-6 backdrop-blur md:p-8">
-                <p className="text-xs font-black tracking-[0.2em] text-[#6750a4]">AIMO MUSIC 3.0</p>
-                <h3 className="mt-4 text-3xl font-black tracking-[-0.04em] text-[#1d1b20] md:text-5xl">
-                  让播放体验回到中心。
-                </h3>
-                <p className="mt-5 text-sm leading-8 text-[#625b71] md:text-base">
-                  清晰的封面、歌词与播放控制，让你更快找到状态，也更少被操作打断。
-                </p>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                {screens.slice(1, 3).map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div key={item.title} className="rounded-[1.5rem] bg-white/62 p-5 backdrop-blur">
-                      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-[1.1rem] bg-[#eaddff] text-[#6750a4]">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <h4 className="font-black text-[#1d1b20]">{item.title}</h4>
-                      <p className="mt-2 text-sm leading-6 text-[#625b71]">{item.desc}</p>
+            <div className="material-showcase-highlights">
+              {screens.slice(1, 3).map((item) => {
+                return (
+                  <div key={item.title} className="material-mini-card material-surface">
+                    <md-elevation />
+                    <span className="material-tonal-icon"><MaterialIcon name={item.icon} size={22} /></span>
+                    <div>
+                      <strong>{item.title}</strong>
+                      <p>{item.desc}</p>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </motion.div>
 
-        <div className="mt-6 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mt-8">
-          <div className="flex min-w-max gap-4">
-            {screens.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={viewport}
-                  transition={{ duration: 0.55, delay: index * 0.06, ease: [0.2, 0, 0, 1] }}
-                  className="md3-card w-[250px] shrink-0 rounded-[1.75rem] bg-[#fffbff] p-4 md:w-[290px]"
-                >
-                  <div className="relative aspect-[9/16] overflow-hidden rounded-[1.25rem] bg-[#e7e0ec]">
-                    <Image src={item.image} alt={item.title} fill className="object-cover" />
+        <div className="material-screen-grid">
+          {screens.slice(1).map((item, index) => {
+            return (
+              <motion.article
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={viewport}
+                transition={{ duration: 0.45, delay: index * 0.05 }}
+                className="material-screen-card material-surface"
+              >
+                <md-elevation />
+                <div className="material-screen-image-wrap">
+                  <Image src={item.image} alt={item.title} fill className="material-screen-image" />
+                </div>
+                <div className="material-screen-meta">
+                    <span className="material-tonal-icon"><MaterialIcon name={item.icon} size={20} /></span>
+                  <div>
+                    <span className="material-overline">{item.label}</span>
+                    <h3>{item.title}</h3>
                   </div>
-                  <div className="mt-4 flex items-start gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[1rem] bg-[#eaddff] text-[#6750a4]">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <p className="text-xs font-black tracking-[0.16em] text-[#6750a4]">{item.label}</p>
-                      <h4 className="mt-1 font-black text-[#1d1b20]">{item.title}</h4>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+                </div>
+              </motion.article>
+            );
+          })}
         </div>
       </div>
     </section>

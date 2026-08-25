@@ -1,32 +1,28 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import fs from 'fs';
 import path from 'path';
-import {
-  ArrowRight,
-  Download,
-  Headphones,
-  Library,
-  ListMusic,
-  Monitor,
-  Music,
-  Radio,
-  Smartphone,
-  Sparkles,
-  User,
-} from 'lucide-react';
 import Sidebar from '@/components/sidebar';
 import ShowcaseReveal from '@/components/showcase-reveal';
 import FadeIn from '@/components/fade-in';
+import MaterialIcon from '@/components/material-icon';
+import ThemeSwitch from '@/components/theme-switch';
 
 const downloadUrl = 'https://wwamd.lanzouw.com/iSq98440sjxe';
+
+type Milestone = {
+  version: string;
+  date: string;
+  title: string;
+  desc: string;
+  updates: string[];
+};
 
 function getMilestones() {
   try {
     const filePath = path.join(process.cwd(), 'data', 'milestones.txt');
     const fileContents = fs.readFileSync(filePath, 'utf8');
-    const milestones: Array<{ version: string; date: string; title: string; desc: string; updates: string[] }> = [];
-    let current: (typeof milestones)[number] | undefined;
+    const milestones: Milestone[] = [];
+    let current: Milestone | undefined;
 
     fileContents.split(/\r?\n/).forEach((line) => {
       const trimmedLine = line.trim();
@@ -39,12 +35,10 @@ function getMilestones() {
         return;
       }
 
-      if (current) {
-        current.updates.push(trimmedLine.replace(/^\d+\.\s*/, ''));
-      }
+      current?.updates.push(trimmedLine.replace(/^\d+\.\s*/, ''));
     });
 
-    return milestones;
+    return milestones.reverse();
   } catch {
     return [];
   }
@@ -52,255 +46,206 @@ function getMilestones() {
 
 const features = [
   {
-    icon: Headphones,
+    icon: 'headphones' as const,
     title: '沉浸播放',
-    desc: '更清晰的播放层级，让封面、歌词与控制区保持舒适距离。',
+    desc: '封面、歌词与控制区拥有清晰层级，播放状态一眼可见。',
+    meta: 'PLAYER',
   },
   {
-    icon: Radio,
-    title: '轻量发现',
-    desc: '推荐、歌单与新歌信息用更柔和的容器呈现，不打断浏览节奏。',
+    icon: 'radio' as const,
+    title: '轻松发现',
+    desc: '推荐歌单、官方榜单和音乐助手，帮你更快找到下一首。',
+    meta: 'DISCOVER',
   },
   {
-    icon: Library,
+    icon: 'library_music' as const,
     title: '有序收藏',
-    desc: '收藏内容重新归类，喜欢的歌曲、专辑与歌单都更容易找到。',
+    desc: '集中管理歌曲与歌单，也可以创建属于自己的收藏空间。',
+    meta: 'LIBRARY',
   },
 ];
 
-const interfaceCards = [
-  { icon: ListMusic, title: '播放队列', desc: '下一首、循环模式、播放进度保持一眼可读。' },
-  { icon: Sparkles, title: '动态歌词', desc: '用轻量动画承载情绪，而不是制造干扰。' },
-  { icon: Music, title: '音乐档案', desc: '把收藏和历史沉淀成真正属于你的音乐空间。' },
+const designFeatures = [
+  { icon: 'palette' as const, title: '动态色彩', desc: '让界面色彩与内容氛围自然呼应。' },
+  { icon: 'timer' as const, title: '实用控制', desc: '定时关闭等常用功能放在顺手的位置。' },
+  { icon: 'tablet' as const, title: '多端适配', desc: '从手机到平板，都保持舒适的信息密度。' },
 ];
 
 export default function Home() {
   const milestones = getMilestones();
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#fffbff] text-[#1d1b20] antialiased">
+    <div className="material-app-shell">
       <Sidebar />
 
-      <header className="sticky top-0 z-50 border-b border-[#e7e0ec] bg-[#fffbff]/86 backdrop-blur-2xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:h-20 md:px-6">
-          <Link href="#hero" className="flex min-w-0 items-center gap-3">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[1.35rem] bg-[#6750a4] text-white shadow-md shadow-[#6750a4]/20">
-              <Music className="h-5 w-5" />
+      <header className="material-top-app-bar">
+        <div className="material-top-app-bar-inner">
+          <a href="#hero" className="material-brand" aria-label="艾莫音乐首页">
+            <span className="material-brand-icon"><MaterialIcon name="music_note" size={22} /></span>
+            <span>
+              <strong>艾莫音乐</strong>
+              <small>AIMO MUSIC</small>
             </span>
-            <span className="min-w-0">
-              <span className="block truncate text-lg font-bold tracking-tight md:text-xl">艾莫音乐</span>
-              <span className="hidden text-xs font-medium tracking-[0.18em] text-[#79747e] sm:block">AIMO MUSIC</span>
-            </span>
-          </Link>
+          </a>
 
-          <nav className="hidden rounded-full bg-[#f3edf7] p-1 text-sm font-semibold text-[#625b71] md:flex">
-            <Link className="rounded-full bg-[#eaddff] px-5 py-2.5 text-[#21005d]" href="#hero">首页</Link>
-            <Link className="rounded-full px-5 py-2.5 transition hover:bg-white hover:text-[#21005d]" href="#features">特性</Link>
-            <Link className="rounded-full px-5 py-2.5 transition hover:bg-white hover:text-[#21005d]" href="#screenshots">界面</Link>
-            <Link className="rounded-full px-5 py-2.5 transition hover:bg-white hover:text-[#21005d]" href="#download">下载</Link>
+          <nav className="material-top-nav" aria-label="主导航">
+            <md-text-button href="#hero">首页</md-text-button>
+            <md-text-button href="#features">特性</md-text-button>
+            <md-text-button href="#screenshots">界面</md-text-button>
+            <md-text-button href="#milestones">更新</md-text-button>
           </nav>
 
-          <div className="flex items-center gap-2">
-            <Link
-              href="#download"
-              className="hidden rounded-full bg-[#6750a4] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#5d4799] sm:inline-flex"
-            >
-              下载
-            </Link>
-            <button aria-label="用户中心" className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f3edf7] text-[#49454f] transition hover:bg-[#eaddff]">
-              <User className="h-4 w-4" />
-            </button>
+          <div className="material-top-actions">
+            <ThemeSwitch />
+            <md-filled-tonal-icon-button href="#download" aria-label="前往下载">
+              <MaterialIcon name="download" size={24} />
+            </md-filled-tonal-icon-button>
           </div>
         </div>
       </header>
 
       <main>
-        <section id="hero" className="relative px-3 pb-10 pt-4 md:px-6 md:pb-16 md:pt-6">
-          <div className="md3-hero-bg pointer-events-none absolute inset-x-0 top-0 -z-10 h-[700px]" />
-
-          <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-[1.08fr_0.92fr]">
-            <FadeIn className="md3-card relative overflow-hidden rounded-[2rem] bg-[#f3edf7] p-6 md:rounded-[2.25rem] md:p-9 lg:min-h-[590px]">
-              <div className="absolute right-6 top-6 hidden rounded-full bg-white/70 px-4 py-2 text-xs font-bold tracking-[0.18em] text-[#6750a4] md:block">
-                MATERIAL DESIGN 3
+        <section id="hero" className="material-section material-hero-section">
+          <div className="material-section-inner material-hero-grid">
+            <FadeIn className="material-hero-copy material-surface material-primary-container">
+              <md-elevation />
+              <div>
+                <md-assist-chip elevated>
+                  <MaterialIcon name="auto_awesome" size={18} slot="icon" />
+                  基于 Material Design 3
+                </md-assist-chip>
+                <h1>把喜欢的音乐，<span>留在触手可及的地方。</span></h1>
+                <p>艾莫音乐让播放、发现与收藏回到舒服的节奏。打开应用，找到想听的歌，然后沉浸其中。</p>
               </div>
 
-              <div className="flex min-h-[470px] flex-col justify-between gap-10">
-                <div>
-                  <div className="mb-7 inline-flex items-center gap-2 rounded-full bg-[#eaddff] px-4 py-2 text-xs font-bold tracking-[0.16em] text-[#21005d]">
-                    <Sparkles className="h-4 w-4" />
-                    让每一次播放都更顺手
-                  </div>
-
-                  <h1 className="max-w-3xl text-4xl font-black leading-[1.05] tracking-[-0.05em] text-[#1d1b20] sm:text-5xl md:text-6xl lg:text-7xl">
-                    把喜欢的音乐，
-                    <span className="text-[#6750a4]">留在触手可及的地方。</span>
-                  </h1>
-
-                  <p className="mt-6 max-w-2xl text-base leading-8 text-[#625b71] md:text-xl md:leading-9">
-                    艾莫音乐让播放、发现与收藏回到最舒服的节奏。打开应用，找到想听的歌，然后沉浸其中。
-                  </p>
-                </div>
-
-                <div className="grid gap-3 sm:flex">
-                  <a
-                    href={downloadUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="shine-button inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#6750a4] px-6 py-3 text-base font-bold text-white shadow-lg shadow-[#6750a4]/20 transition hover:-translate-y-0.5 hover:bg-[#5d4799] active:scale-95"
-                  >
-                    <Download className="h-5 w-5" />
-                    下载 Android 版 · 密码 50p5
-                  </a>
-                  <Link
-                    href="#screenshots"
-                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-base font-bold text-[#6750a4] shadow-sm transition hover:-translate-y-0.5 active:scale-95"
-                  >
+              <div>
+                <div className="material-action-row">
+                  <md-filled-button href={downloadUrl} target="_blank" has-icon>
+                    <MaterialIcon name="download" size={19} slot="icon" />
+                    下载 Android 版
+                  </md-filled-button>
+                  <md-outlined-button href="#screenshots" has-icon trailing-icon>
                     查看界面
-                    <ArrowRight className="h-5 w-5" />
-                  </Link>
+                    <MaterialIcon name="arrow_forward" size={18} slot="icon" />
+                  </md-outlined-button>
                 </div>
+                <p className="material-download-hint">蓝奏云提取密码：<strong>50p5</strong></p>
               </div>
             </FadeIn>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1 lg:grid-rows-[auto_1fr]">
-              <FadeIn delay={0.08} className="md3-card rounded-[2rem] bg-[#eaddff] p-5 md:rounded-[2.25rem] md:p-7">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-bold tracking-[0.18em] text-[#6750a4]">NOW PLAYING</p>
-                    <h2 className="mt-4 text-3xl font-black tracking-tight text-[#21005d]">Aimo Music</h2>
-                    <p className="mt-2 text-sm leading-6 text-[#625b71]">动态色 · 圆角容器 · Material Motion</p>
-                  </div>
-                  <span className="flex h-16 w-16 items-center justify-center rounded-[1.45rem] bg-white/70 text-[#6750a4]">
-                    <Headphones className="h-8 w-8" />
-                  </span>
+            <FadeIn delay={0.08} className="material-hero-preview material-surface">
+              <md-elevation />
+              <Image src="/screenshots/screen-1.png" alt="艾莫音乐播放界面" fill priority className="material-hero-preview-image" />
+              <div className="material-preview-scrim" />
+              <div className="material-now-playing">
+                <div className="material-now-playing-title">
+                  <span className="material-tonal-icon"><MaterialIcon name="headphones" size={22} /></span>
+                  <div><span className="material-overline">NOW PLAYING</span><strong>Aimo Music</strong></div>
                 </div>
-
-                <div className="mt-8 rounded-[1.5rem] bg-white/60 p-4">
-                  <div className="mb-3 flex items-center justify-between text-xs font-semibold text-[#79747e]">
-                    <span>Pure Night</span>
-                    <span>02:36</span>
-                  </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-[#cac4d0]">
-                    <div className="h-full w-[62%] rounded-full bg-[#6750a4]" />
-                  </div>
-                </div>
-              </FadeIn>
-
-              <FadeIn delay={0.16} className="relative min-h-[360px] overflow-hidden rounded-[2rem] bg-[#e8def8] shadow-xl shadow-[#6750a4]/10 md:rounded-[2.25rem] lg:min-h-[410px]">
-                <Image
-                  src="/screenshots/screen-1.png"
-                  alt="艾莫音乐播放界面"
-                  fill
-                  priority
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#21005d]/82 via-[#6750a4]/10 to-transparent" />
-                <div className="absolute bottom-0 p-6 text-white md:p-8">
-                  <p className="text-xs font-bold tracking-[0.18em] text-white/70">APP PREVIEW</p>
-                    <h3 className="mt-3 text-3xl font-black tracking-tight">先看见你熟悉的播放体验。</h3>
-                </div>
-              </FadeIn>
-            </div>
+                <md-linear-progress value={0.62} />
+                <div className="material-player-time"><span>02:36</span><span>04:12</span></div>
+              </div>
+            </FadeIn>
           </div>
         </section>
 
-        <section id="features" className="px-3 py-10 md:px-6 md:py-16">
-          <div className="mx-auto max-w-7xl">
-            <FadeIn className="mb-8 max-w-3xl md:mb-11">
-              <p className="mb-3 text-xs font-black tracking-[0.22em] text-[#6750a4]">CORE EXPERIENCE</p>
-              <h2 className="text-3xl font-black leading-tight tracking-[-0.04em] md:text-5xl lg:text-6xl">把时间留给音乐，把操作交给直觉。</h2>
-              <p className="mt-5 max-w-2xl text-sm leading-7 text-[#625b71] md:text-base">
-                从播放到收藏，每个常用动作都保持清晰、轻快，不让多余的界面打断你的聆听。
-              </p>
+        <section id="features" className="material-section">
+          <div className="material-section-inner">
+            <FadeIn className="material-section-heading">
+              <md-assist-chip elevated>
+                <MaterialIcon name="auto_awesome" size={18} slot="icon" />
+                核心体验
+              </md-assist-chip>
+              <h2>把时间留给音乐，把操作交给直觉。</h2>
+              <p>从播放到收藏，每个常用动作都保持清晰、轻快，不让多余的界面打断聆听。</p>
             </FadeIn>
 
-            <div className="grid gap-4 md:grid-cols-3">
-              {features.map((feature, index) => (
-                <FadeIn
-                  key={feature.title}
-                  delay={index * 0.08}
-                  className="md3-card group rounded-[2rem] bg-[#f7f2fa] p-6 transition hover:-translate-y-1 md:p-7"
-                >
-                  <div className="mb-10 flex items-center justify-between">
-                    <span className="flex h-14 w-14 items-center justify-center rounded-[1.4rem] bg-[#eaddff] text-[#6750a4] transition group-hover:scale-105">
-                      <feature.icon className="h-6 w-6" />
-                    </span>
-                    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#6750a4]">0{index + 1}</span>
-                  </div>
-                  <h3 className="text-xl font-black tracking-tight md:text-2xl">{feature.title}</h3>
-                  <p className="mt-4 text-sm leading-7 text-[#625b71]">{feature.desc}</p>
-                </FadeIn>
-              ))}
+            <div className="material-feature-grid">
+              {features.map((feature, index) => {
+                return (
+                  <FadeIn key={feature.title} delay={index * 0.06} className={`material-feature-card material-feature-card-${index + 1} material-surface`}>
+                    <md-elevation />
+                    <div className="material-feature-card-top">
+                      <span className="material-tonal-icon material-tonal-icon-large"><MaterialIcon name={feature.icon} size={26} /></span>
+                      <span className="material-card-index">0{index + 1}</span>
+                    </div>
+                    <span className="material-overline">{feature.meta}</span>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.desc}</p>
+                    <md-divider />
+                    <div className="material-feature-status"><MaterialIcon name="check_circle" size={17} /> 已在 Android 版提供</div>
+                  </FadeIn>
+                );
+              })}
             </div>
           </div>
         </section>
 
         <ShowcaseReveal />
 
-        <section id="design" className="px-3 py-10 md:px-6 md:py-16">
-          <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-            <FadeIn className="md3-card rounded-[2rem] bg-[#f7f2fa] p-6 md:rounded-[2.25rem] md:p-9">
-              <p className="mb-3 text-xs font-black tracking-[0.22em] text-[#6750a4]">DESIGN SYSTEM</p>
-              <h2 className="text-3xl font-black tracking-[-0.04em] md:text-5xl">清晰的界面，让音乐自然成为主角。</h2>
-              <div className="mt-8 grid gap-3">
-                {interfaceCards.map((item) => (
-                  <div key={item.title} className="rounded-[1.5rem] bg-white p-5">
-                    <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-[1.1rem] bg-[#eaddff] text-[#6750a4]">
-                      <item.icon className="h-5 w-5" />
+        <section id="design" className="material-section">
+          <div className="material-section-inner material-design-grid">
+            <FadeIn className="material-design-copy">
+              <md-assist-chip elevated>
+                <MaterialIcon name="palette" size={18} slot="icon" />
+                Material Web
+              </md-assist-chip>
+              <h2>真实组件，统一交互，也统一表达。</h2>
+              <p>页面使用 Material Web 的按钮、芯片、进度条、FAB、Ripple 与 Elevation，并通过 Material 3 设计令牌建立完整的颜色和层级系统。</p>
+              <div className="material-design-list">
+                {designFeatures.map((item) => {
+                  return (
+                    <div key={item.title} className="material-list-row material-surface">
+                      <md-elevation />
+                      <span className="material-tonal-icon"><MaterialIcon name={item.icon} size={21} /></span>
+                      <div><strong>{item.title}</strong><p>{item.desc}</p></div>
                     </div>
-                    <h3 className="font-black">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-[#625b71]">{item.desc}</p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </FadeIn>
 
-            <FadeIn delay={0.08} className="relative min-h-[360px] overflow-hidden rounded-[2rem] bg-[#d0bcff] md:rounded-[2.25rem] lg:min-h-[520px]">
-              <Image
-                src="https://picsum.photos/seed/aimo-material-clean/1200/900"
-                alt="Material Design 3"
-                fill
-                className="object-cover opacity-75"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#21005d]/80 via-[#6750a4]/20 to-transparent" />
-              <div className="absolute bottom-0 max-w-2xl p-7 text-white md:p-10">
-                <p className="text-xs font-bold tracking-[0.18em] text-white/70">MATERIAL MOTION</p>
-                <h3 className="mt-3 text-3xl font-black tracking-tight md:text-5xl">每一次反馈，都恰到好处。</h3>
+            <FadeIn delay={0.08} className="material-design-visual material-surface">
+              <md-elevation />
+              <Image src="/screenshots/screen-4.png" alt="艾莫音乐歌词界面" fill className="material-design-image" />
+              <div className="material-preview-scrim" />
+              <div className="material-design-visual-copy">
+                <span className="material-overline">MATERIAL MOTION</span>
+                <h3>每一次反馈，都恰到好处。</h3>
               </div>
             </FadeIn>
           </div>
         </section>
 
-        <section id="milestones" className="px-3 py-10 md:px-6 md:py-16">
-          <FadeIn className="mx-auto max-w-5xl rounded-[2rem] bg-[#f3edf7] p-6 md:rounded-[2.25rem] md:p-9">
-            <div className="mb-10 text-center">
-              <p className="mb-3 text-xs font-black tracking-[0.22em] text-[#6750a4]">UPDATES</p>
-              <h2 className="text-3xl font-black tracking-[-0.04em] md:text-5xl">一路更新，只为更好地听歌。</h2>
-            </div>
+        <section id="milestones" className="material-section material-updates-section">
+          <div className="material-section-inner">
+            <FadeIn className="material-section-heading material-section-heading-centered">
+              <md-assist-chip elevated>
+                <MaterialIcon name="queue_music" size={18} slot="icon" />
+                版本历程
+              </md-assist-chip>
+              <h2>一路更新，只为更好地听歌。</h2>
+              <p>从第一版到现在，每一次更新都来自真实的播放需求。</p>
+            </FadeIn>
 
-            <div className="space-y-3">
+            <div className="material-timeline">
               {milestones.map((item, index) => (
-                <FadeIn
-                  key={`${item.version}-${item.title}`}
-                  delay={index * 0.04}
-                  y={14}
-                  className="grid gap-3 rounded-[1.5rem] bg-white p-5 transition hover:-translate-y-1 hover:shadow-md md:grid-cols-[150px_1fr] md:p-6"
-                >
-                  <div>
-                    <p className="text-xl font-black text-[#6750a4]">{item.version}</p>
-                    <p className="mt-1 text-xs font-bold tracking-[0.14em] text-[#79747e]">{item.date}</p>
+                <FadeIn key={`${item.version}-${item.title}`} delay={index * 0.05} y={16} className={`material-update-card material-surface ${index === 0 ? 'is-latest' : ''}`}>
+                  <md-elevation />
+                  <div className="material-update-meta">
+                    <div className="material-version-row">
+                      <span className="material-version-badge">{item.version}</span>
+                      {index === 0 && <span className="material-latest-label">最新版本</span>}
+                    </div>
+                    <time>{item.date}</time>
                   </div>
-                  <div>
-                    <h3 className="font-black">{item.title}</h3>
-                    {item.desc && <p className="mt-2 text-sm leading-7 text-[#625b71]">{item.desc}</p>}
+                  <div className="material-update-content">
+                    <h3>{item.title}</h3>
+                    {item.desc && <p>{item.desc}</p>}
                     {item.updates.length > 0 && (
-                      <ul className="mt-4 grid gap-2 text-sm leading-6 text-[#625b71] md:grid-cols-2">
+                      <ul>
                         {item.updates.map((update) => (
-                          <li key={update} className="flex items-start gap-2">
-                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#6750a4]" />
-                            <span>{update}</span>
-                          </li>
+                          <li key={update}><MaterialIcon name="check_circle" size={17} /><span>{update}</span></li>
                         ))}
                       </ul>
                     )}
@@ -308,78 +253,58 @@ export default function Home() {
                 </FadeIn>
               ))}
             </div>
-          </FadeIn>
+          </div>
         </section>
 
-        <section id="download" className="px-3 pb-4 pt-6 md:px-6 md:pb-6 md:pt-8">
-          <FadeIn className="mx-auto overflow-hidden rounded-[2rem] bg-[#1d1b20] text-white md:rounded-[2.5rem]">
-            <div className="relative mx-auto grid max-w-7xl gap-8 p-7 md:p-12 lg:grid-cols-[1fr_0.78fr] lg:p-16">
-              <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[#6750a4]/50 blur-3xl" />
-              <div className="absolute -bottom-28 left-8 h-80 w-80 rounded-full bg-[#d0bcff]/25 blur-3xl" />
-
-              <div className="relative z-10">
-                <p className="mb-4 text-xs font-black tracking-[0.22em] text-[#d0bcff]">DOWNLOAD</p>
-                <h2 className="text-4xl font-black tracking-[-0.06em] md:text-7xl">现在，就开始听。</h2>
-                <p className="mt-6 max-w-2xl text-base leading-8 text-white/70 md:text-xl md:leading-9">
-                  下载 Android 版艾莫音乐，把喜欢的歌和播放体验一起带走。
-                </p>
-                <a
-                  href={downloadUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="shine-button mt-8 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#d0bcff] px-6 py-3 text-base font-black text-[#21005d] transition hover:-translate-y-0.5 hover:bg-[#eaddff] active:scale-95 sm:w-auto"
-                >
-                  <Download className="h-5 w-5" />
-                  下载 Android 版 · 密码 50p5
-                </a>
+        <section id="download" className="material-section material-download-section">
+          <div className="material-section-inner material-download-card">
+            <md-elevation />
+            <div className="material-download-copy">
+              <span className="material-overline">DOWNLOAD</span>
+              <h2>现在，就开始听。</h2>
+              <p>下载 Android 版艾莫音乐，把喜欢的歌和舒适的播放体验一起带走。</p>
+              <div className="material-action-row">
+                <md-filled-button href={downloadUrl} target="_blank" has-icon>
+                  <MaterialIcon name="download" size={19} slot="icon" />
+                  下载 Android 版
+                </md-filled-button>
+                <md-outlined-button href="#milestones">查看更新记录</md-outlined-button>
               </div>
+              <p className="material-download-hint material-download-hint-inverse">提取密码：<strong>50p5</strong></p>
+            </div>
 
-              <div className="relative z-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-                {[
-                  { icon: Smartphone, name: 'Android 版', desc: '立即开始播放', link: downloadUrl },
-                  { icon: Monitor, name: 'PC 版', desc: '桌面端体验即将到来', status: '即将推出', link: '#' },
-                ].map((platform) => (
-                  platform.status ? (
-                    <div key={platform.name} className="relative rounded-[1.75rem] bg-white/10 p-6 opacity-75">
-                      <span className="absolute right-5 top-5 rounded-full bg-white/10 px-3 py-1 text-xs font-bold text-white/70">{platform.status}</span>
-                      <platform.icon className="h-7 w-7" />
-                      <h3 className="mt-8 text-xl font-black">{platform.name}</h3>
-                      <p className="mt-1 text-sm text-white/60">{platform.desc}</p>
-                    </div>
-                  ) : (
-                    <a key={platform.name} href={platform.link} target="_blank" rel="noopener noreferrer" className="rounded-[1.75rem] bg-white/12 p-6 transition hover:-translate-y-1 hover:bg-white/16 active:scale-95">
-                      <platform.icon className="h-7 w-7" />
-                      <h3 className="mt-8 text-xl font-black">{platform.name}</h3>
-                      <p className="mt-1 text-sm text-white/60">{platform.desc}</p>
-                    </a>
-                  )
-                ))}
+            <div className="material-platform-grid">
+              <a href={downloadUrl} target="_blank" rel="noopener noreferrer" className="material-platform-card">
+                <md-ripple />
+                <MaterialIcon name="smartphone" size={28} />
+                <div><strong>Android 版</strong><span>立即开始播放</span></div>
+                <MaterialIcon name="arrow_forward" size={20} />
+              </a>
+              <div className="material-platform-card is-disabled">
+                <MaterialIcon name="desktop_windows" size={28} />
+                <div><strong>PC 版</strong><span>桌面端体验即将到来</span></div>
+                <span className="material-status-label">即将推出</span>
               </div>
             </div>
-          </FadeIn>
+          </div>
         </section>
       </main>
 
-      <footer className="border-t border-[#e7e0ec] px-4 py-10 text-[#625b71] md:px-6">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-[1.2rem] bg-[#eaddff] text-[#6750a4]">
-              <Music className="h-4 w-4" />
-            </span>
-            <div>
-              <p className="font-black text-[#1d1b20]">艾莫音乐</p>
-              <p className="text-xs font-bold tracking-[0.16em]">Aimo Music</p>
-            </div>
+      <footer className="material-footer">
+        <md-divider />
+        <div className="material-footer-inner">
+          <div className="material-brand">
+            <span className="material-brand-icon"><MaterialIcon name="music_note" size={20} /></span>
+            <span><strong>艾莫音乐</strong><small>AIMO MUSIC</small></span>
           </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
-            <Link href="https://amstudios.dpdns.org" target="_blank" rel="noopener noreferrer" className="transition hover:text-[#6750a4]">关于我们</Link>
-            <Link href="#" className="transition hover:text-[#6750a4]">用户协议</Link>
-            <Link href="#" className="transition hover:text-[#6750a4]">隐私政策</Link>
-            <Link href="#" className="transition hover:text-[#6750a4]">联系客服</Link>
-          </div>
+          <nav aria-label="页脚导航">
+            <a href="https://amstudios.dpdns.org" target="_blank" rel="noopener noreferrer">关于我们</a>
+            <a href="#">用户协议</a>
+            <a href="#">隐私政策</a>
+            <a href="#">联系客服</a>
+          </nav>
+          <p>© 2026 Aimo Music</p>
         </div>
-        <p className="mx-auto mt-8 max-w-7xl text-center text-xs md:text-left">© 2026 艾莫音乐 Aimo Music. All rights reserved.</p>
       </footer>
     </div>
   );
