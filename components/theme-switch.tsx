@@ -2,11 +2,13 @@
 
 import { useEffect, useRef } from 'react';
 import MaterialIcon from '@/components/material-icon';
+import { useTheme } from '@/components/theme-provider';
 
 type MaterialSwitchElement = HTMLElement & { selected: boolean };
 
 export default function ThemeSwitch() {
   const switchRef = useRef<HTMLElement | null>(null);
+  const { mode, setMode } = useTheme();
 
   useEffect(() => {
     let disposed = false;
@@ -14,10 +16,7 @@ export default function ThemeSwitch() {
 
     const handleChange = () => {
       if (!switchElement) return;
-      const theme = switchElement.selected ? 'dark' : 'light';
-      document.documentElement.dataset.theme = theme;
-      document.documentElement.style.colorScheme = theme;
-      localStorage.setItem('aimo-theme', theme);
+      setMode(switchElement.selected ? 'dark' : 'light');
     };
 
     const initialize = async () => {
@@ -35,7 +34,12 @@ export default function ThemeSwitch() {
       disposed = true;
       switchElement?.removeEventListener('change', handleChange);
     };
-  }, []);
+  }, [setMode]);
+
+  useEffect(() => {
+    const switchElement = switchRef.current as MaterialSwitchElement | null;
+    if (switchElement) switchElement.selected = mode === 'dark';
+  }, [mode]);
 
   return (
     <div className="material-theme-control" title="切换亮色或暗色模式">

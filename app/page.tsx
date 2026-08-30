@@ -6,6 +6,8 @@ import ShowcaseReveal from '@/components/showcase-reveal';
 import FadeIn from '@/components/fade-in';
 import MaterialIcon from '@/components/material-icon';
 import ThemeSwitch from '@/components/theme-switch';
+import ThemePalette from '@/components/theme-palette';
+import DynamicColorPreview from '@/components/dynamic-color-preview';
 
 const downloadUrl = 'https://wwamd.lanzouw.com/iSq98440sjxe';
 
@@ -66,7 +68,7 @@ const features = [
 ];
 
 const designFeatures = [
-  { icon: 'palette' as const, title: '动态色彩', desc: '让界面色彩与内容氛围自然呼应。' },
+  { icon: 'palette' as const, title: '动态取色', desc: '以一个主题色为种子，推导出整套配色。' },
   { icon: 'timer' as const, title: '实用控制', desc: '定时关闭等常用功能放在顺手的位置。' },
   { icon: 'tablet' as const, title: '多端适配', desc: '从手机到平板，都保持舒适的信息密度。' },
 ];
@@ -96,6 +98,7 @@ export default function Home() {
           </nav>
 
           <div className="material-top-actions">
+            <ThemePalette />
             <ThemeSwitch />
             <md-filled-tonal-icon-button href="#download" aria-label="前往下载">
               <MaterialIcon name="download" size={24} />
@@ -191,7 +194,7 @@ export default function Home() {
                 Material Web
               </md-assist-chip>
               <h2>真实组件，统一交互，也统一表达。</h2>
-              <p>页面使用 Material Web 的按钮、芯片、进度条、FAB、Ripple 与 Elevation，并通过 Material 3 设计令牌建立完整的颜色和层级系统。</p>
+              <p>页面使用 Material Web 的按钮、芯片、进度条、FAB、Ripple 与 Elevation，并由 Material 3 的动态取色算法从一个种子色推导出整套配色。</p>
               <div className="material-design-list">
                 {designFeatures.map((item) => {
                   return (
@@ -205,13 +208,17 @@ export default function Home() {
               </div>
             </FadeIn>
 
-            <FadeIn delay={0.08} className="material-design-visual material-surface">
-              <md-elevation />
-              <Image src="/screenshots/screen-4.png" alt="艾莫音乐歌词界面" fill className="material-design-image" />
-              <div className="material-preview-scrim" />
-              <div className="material-design-visual-copy">
-                <span className="material-overline">MATERIAL MOTION</span>
-                <h3>每一次反馈，都恰到好处。</h3>
+            <FadeIn delay={0.08} className="material-design-side">
+              <DynamicColorPreview />
+
+              <div className="material-design-visual material-surface">
+                <md-elevation />
+                <Image src="/screenshots/screen-4.png" alt="艾莫音乐歌词界面" fill className="material-design-image" />
+                <div className="material-preview-scrim" />
+                <div className="material-design-visual-copy">
+                  <span className="material-overline">MATERIAL MOTION</span>
+                  <h3>每一次反馈，都恰到好处。</h3>
+                </div>
               </div>
             </FadeIn>
           </div>
